@@ -1,0 +1,45 @@
+
+name: kupidon-dev-mongo
+
+services:
+
+  mongo:
+    env_file:
+      - mongo.dev.env
+    build:
+      dockerfile: Dockerfile
+#    expose:
+#      - 27017
+    ports:
+      - '${MONGO_PORT}:${MONGO_PORT}'
+    extra_hosts:
+      - '${MONGO_HOSTNAME}:127.0.0.1'
+    volumes:
+      - ./mongo/:/data/configdb/:ro
+#      - ../kupidon-dev-mongo-data/:/data/db/
+#      - ../kupidon-dev-mongo-logs/:/var/log/mongodb/
+#      - ./mongo-init/:/docker-entrypoint-initdb.d/:ro
+    deploy:
+      restart_policy:
+        condition: any
+        # Time between restart attempts
+        delay: 5s
+        # 'max_attempts' can only be used with 'condition: on-failure'
+        #max_attempts: 3
+        # How long to wait before deciding if a restart has succeeded.
+        window: 120s
+    entrypoint: kotlinc -script /data/configdb/mongo-start.main.kts
+
+#  mongo-test:
+#    image: mongo:7.0.6-jammy
+#    entrypoint: sh -c "sleep infinity"
+
+
+
+#volumes:
+#  kupidon-mongo-data-dev:
+#    external: true
+#  kupidon-mongo-config-dev:
+#    external: true
+#  kupidon-mongo-log-dev:
+#    external: true

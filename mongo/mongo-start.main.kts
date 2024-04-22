@@ -31,6 +31,7 @@ runBlocking(Executors.newCachedThreadPool().asCoroutineDispatcher()) {
   println("mongo-start.main.kts: INFO: Starting mongod to config it...")
   exec("/bin/bash", "-c", mongod)
   
+  
   withRetry {
     println("mongo-start.main.kts: INFO: Starting setup replica set...")
     execWait("/bin/bash", "-c",
@@ -59,8 +60,6 @@ runBlocking(Executors.newCachedThreadPool().asCoroutineDispatcher()) {
     }
   }
   
-  delay(1500)
-  
   withRetry {
     println("mongo-start.main.kts: INFO: Creating app db and app db admin...")
     execWait(
@@ -73,12 +72,12 @@ runBlocking(Executors.newCachedThreadPool().asCoroutineDispatcher()) {
 
 
 suspend inline fun withRetry(
-  initialDelay: Long = 1500,
+  delay: Long = 1500,
   interval: Long = 2000,
-  retries: Int = 5,
+  retries: Int = 30,
   block: ()->Unit
 ) {
-  delay(initialDelay)
+  delay(delay)
   // from 0 because first attempt is not retry
   for (i in 0..retries){
     try {
@@ -95,7 +94,7 @@ suspend inline fun withRetry(
 
 
 
-fun exec(vararg args: String){
+fun exec(vararg args: String) {
   ProcessBuilder(args.toList()).inheritIO().start()
 }
 

@@ -4,6 +4,7 @@ console.log('01-rs-init.js: INFO: start initializing replica set')
 
 const mongoHostname = process.env.MONGO_HOSTNAME
 const mongoPort = process.env.MONGO_PORT
+const mongoRsName = process.env.MONGO_RS_NAME
 
 try {
   rs.status()
@@ -11,7 +12,7 @@ try {
 }
 catch (ex){
   const config = {
-    _id: 'rs0',
+    _id: mongoRsName,
     version: 1, // must be >= 1
     members: [
       {

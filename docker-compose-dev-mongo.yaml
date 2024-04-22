@@ -16,7 +16,7 @@ services:
       - '${MONGO_HOSTNAME}:127.0.0.1'
     volumes:
       - ./mongo/:/data/configdb/:ro
-#      - ../kupidon-dev-mongo-data/:/data/db/
+      - ../kupidon-dev-mongo-data/:/data/db/
 #      - ../kupidon-dev-mongo-logs/:/var/log/mongodb/
 #      - ./mongo-init/:/docker-entrypoint-initdb.d/:ro
     deploy:

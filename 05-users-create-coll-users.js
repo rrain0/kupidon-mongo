@@ -3,6 +3,7 @@
 const appDbName = process.env.MONGO_APP_DB_DATABASE_NAME
 const appDbUserName = process.env.MONGO_APP_DB_USERNAME
 const appDbUserPwd = process.env.MONGO_APP_DB_PASSWORD
+
 db = db.getSiblingDB(appDbName)
 db.auth(appDbUserName, appDbUserPwd)
 

@@ -1,13 +1,26 @@
 
 
 
-dev--up:
-	docker-compose -f docker-compose-dev-mongo.yaml --env-file mongo.dev.env pull
-	docker-compose -f docker-compose-dev-mongo.yaml --env-file mongo.dev.env up -d --force-recreate
+prod.up:
+	docker-compose -f docker-compose.yml --env-file mongo.prod.env pull
+	docker-compose -f docker-compose.yml --env-file mongo.prod.env up   -d --force-recreate
 
-dev--build-up:
-	docker-compose -f docker-compose-dev-mongo.yaml --env-file mongo.dev.env pull
-	docker-compose -f docker-compose-dev-mongo.yaml --env-file mongo.dev.env up -d --force-recreate --build
+prod.build-up:
+	docker-compose -f docker-compose.yml --env-file mongo.prod.env pull
+	docker-compose -f docker-compose.yml --env-file mongo.prod.env up   -d --force-recreate --build
 
-dev--down:
-	docker-compose -f docker-compose-dev-mongo.yaml --env-file mongo.dev.env down
+prod.down:
+	docker-compose -f docker-compose.yml --env-file mongo.prod.env down
+
+
+
+local.up:
+	docker-compose -f docker-compose.yml --env-file mongo.local.env pull
+	docker-compose -f docker-compose.yml --env-file mongo.local.env up   -d --force-recreate
+
+local.build-up:
+	docker-compose -f docker-compose.yml --env-file mongo.local.env pull
+	docker-compose -f docker-compose.yml --env-file mongo.local.env up   -d --force-recreate --build
+
+local.down:
+	docker-compose -f docker-compose.yml --env-file mongo.local.env down

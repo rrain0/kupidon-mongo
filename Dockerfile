@@ -26,3 +26,7 @@ RUN export SDKMAN_DIR="/root/.sdkman"  \
 #ENV PATH=/root/.sdkman/candidates/java/current/bin:$PATH
 ENV PATH=/root/.sdkman/candidates/kotlin/current/bin:$PATH
 
+
+LABEL authors="rrain"
+
+

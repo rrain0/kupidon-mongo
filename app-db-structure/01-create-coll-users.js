@@ -1,9 +1,10 @@
 
 
-const appDbName = process.env.MONGO_APP_DB_DATABASE_NAME
+const appDbName = process.env.MONGO_APP_DB_DATABASE
 const appDbUserName = process.env.MONGO_APP_DB_USERNAME
 const appDbUserPwd = process.env.MONGO_APP_DB_PASSWORD
 
+// use kupidon
 db = db.getSiblingDB(appDbName)
 db.auth(appDbUserName, appDbUserPwd)
 

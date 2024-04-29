@@ -1,11 +1,11 @@
 
-name: kupidon-dev-mongo
+
+name: kupidon-mongo
+
 
 services:
 
   mongo:
-    env_file:
-      - mongo.dev.env
     build:
       dockerfile: Dockerfile
 #    expose:
@@ -29,10 +29,21 @@ services:
         # How long to wait before deciding if a restart has succeeded.
         window: 120s
     entrypoint: kotlinc -script /data/configdb/mongo-start.main.kts
+    environment:
+      - MONGO_HOSTNAME
+      - MONGO_PORT
+      - MONGO_RS
+      - MONGO_ROOT_USERNAME
+      - MONGO_ROOT_PASSWORD
+      - MONGO_APP_DB_DATABASE
+      - MONGO_APP_DB_USERNAME
+      - MONGO_APP_DB_PASSWORD
+
 
 #  mongo-test:
 #    image: mongo:7.0.6-jammy
 #    entrypoint: sh -c "sleep infinity"
+
 
 
 

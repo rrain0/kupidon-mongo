@@ -4,7 +4,7 @@ console.log('01-rs-init.js: INFO: start initializing replica set')
 
 const mongoHostname = process.env.MONGO_HOSTNAME
 const mongoPort = process.env.MONGO_PORT
-const mongoRsName = process.env.MONGO_RS_NAME
+const mongoRsName = process.env.MONGO_RS
 
 try {
   rs.status()

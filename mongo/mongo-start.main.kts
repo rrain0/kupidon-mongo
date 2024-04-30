@@ -12,7 +12,7 @@ runBlocking(Executors.newCachedThreadPool().asCoroutineDispatcher()) {
   val mongoPort = System.getenv("MONGO_PORT")
   val mongoRs = System.getenv("MONGO_RS")
   
-  val mongod = "mongod --config /data/configdb/mongod-config.yaml --port $mongoPort --replSet $mongoRs"
+  val mongod = "mongod --port $mongoPort --replSet $mongoRs --bind_ip_all --ipv6"
   
   val mongosh = "mongosh --host $mongoHost --port $mongoPort"
   

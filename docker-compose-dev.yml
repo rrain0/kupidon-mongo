@@ -1,6 +1,6 @@
 
 
-name: kupidon-mongo
+name: kupidon-dev-mongo
 
 
 services:
@@ -19,15 +19,6 @@ services:
       - ${MONGO_DB_DATA_PATH}/:/data/db/
 #      - ../kupidon-dev-mongo-logs/:/var/log/mongodb/
 #      - ./mongo-init/:/docker-entrypoint-initdb.d/:ro
-    deploy:
-      restart_policy:
-        condition: any
-        # Time between restart attempts
-        delay: 5s
-        # 'max_attempts' can only be used with 'condition: on-failure'
-        #max_attempts: 3
-        # How long to wait before deciding if a restart has succeeded.
-        window: 120s
     entrypoint: kotlinc -script /data/configdb/mongo-start.main.kts
     environment:
       - MONGO_HOSTNAME
@@ -38,6 +29,7 @@ services:
       - MONGO_APP_DB_DATABASE
       - MONGO_APP_DB_USERNAME
       - MONGO_APP_DB_PASSWORD
+    restart: unless-stopped
 
 
 #  mongo-test:

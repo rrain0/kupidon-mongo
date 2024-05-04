@@ -1,12 +1,13 @@
 
 
-name: kupidon-prod-mongo
+name: kupidon-local-mongo
 
 
 services:
 
   mongo:
-    image: rrain0/kupidon-mongo-mongo:1.0.0
+    build:
+      dockerfile: Dockerfile
 #    expose:
 #      - 27017
     ports:

@@ -1,8 +1,10 @@
 @file:Repository("https://jcenter.bintray.com")
 @file:DependsOn("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.8.0")
+//@file:Import("shell.main.kts")
 
 import kotlinx.coroutines.*
 import java.util.concurrent.Executors
+
 
 
 
@@ -22,7 +24,7 @@ runBlocking(Executors.newCachedThreadPool().asCoroutineDispatcher()) {
   
   // Prepare mongo keyfile - it must be same for all replica set members
   println("mongo-start.main.kts: INFO: Preparing mongo keyfile...")
-  execWait("/bin/bash", "-c", """
+  shellWait("""
     mkdir /data/configmongo
     cp /data/configdb/mongoKeyFile /data/configmongo/mongoKeyFile
     chmod 400 /data/configmongo/mongoKeyFile
@@ -30,49 +32,39 @@ runBlocking(Executors.newCachedThreadPool().asCoroutineDispatcher()) {
   """.trimIndent())
   
   println("mongo-start.main.kts: INFO: Starting mongod to config it...")
-  exec("/bin/bash", "-c", mongod)
+  shell(mongod)
   
   
-  withRetry {
+  retry {
     println("mongo-start.main.kts: INFO: Starting setup replica set...")
-    execWait("/bin/bash", "-c",
-      "$mongosh --file /data/configdb/01-rs-init.js"
-    )
+    shellWait("$mongosh --file /data/configdb/01-rs-init.js")
   }
   
   println("mongo-start.main.kts: INFO: Creating admin user...")
-  execWait("/bin/bash", "-c",
-    "$mongosh --file /data/configdb/02-rs-create-admin-user.js"
-  )
+  shellWait("$mongosh --file /data/configdb/02-rs-create-admin-user.js")
   
   println("mongo-start.main.kts: INFO: Starting shutdown mongod with replica set")
-  execWait("/bin/bash", "-c",
-    "$mongosh --file /data/configdb/03-rs-shutdown.js"
-  )
+  shellWait("$mongosh --file /data/configdb/03-rs-shutdown.js")
   
   launch {
     // retry to wait for port to be free
-    withRetry {
+    retry {
       println("mongo-start.main.kts: INFO: Start mongo with replica set with auth enabled...")
-      execWait(
-        "/bin/bash", "-c",
-        "$mongod --auth --keyFile /data/configmongo/mongoKeyFile"
-      )
+      shellWait("$mongod --auth --keyFile /data/configmongo/mongoKeyFile")
     }
   }
   
-  withRetry {
+  retry {
     println("mongo-start.main.kts: INFO: Creating app db and app db admin...")
-    execWait(
-      "/bin/bash", "-c",
-      "$mongosh --file /data/configdb/04-app-create-db-and-admin.js"
-    )
+    shellWait("$mongosh --file /data/configdb/04-app-create-db-and-admin.js")
   }
 }
 
 
 
-suspend inline fun withRetry(
+
+
+suspend inline fun retry(
   delay: Long = 1500,
   interval: Long = 2000,
   retries: Int = 30,
@@ -98,14 +90,20 @@ suspend inline fun withRetry(
 fun exec(vararg args: String) {
   ProcessBuilder(args.toList()).inheritIO().start()
 }
+fun shell(vararg args: String) = exec("/bin/bash", "-c", *args)
+
+
 
 fun execWait(vararg args: String) {
   ProcessBuilder(args.toList()).inheritIO().start().waitFor().let { exitValue ->
     if (exitValue!=0) throw RuntimeException("ERROR! Exit value: $exitValue")
   }
 }
+fun shellWait(vararg args: String) = execWait("/bin/bash", "-c", *args)
+
 
 
 fun sleepInfinity() = execWait("/bin/bash", "-c", "sleep infinity")
+
 
 

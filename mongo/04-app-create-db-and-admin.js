@@ -28,7 +28,7 @@ const appDb = db.getSiblingDB(appDbName)
 
 
 const appDbUsers = appDb.getUsers()
-if (appDbUsers.users.find(it=>it.user===appDbUserName)) {
+if (appDbUsers.users.find(it => it.user === appDbUserName)) {
   console.log(`04-app-create-db-and-admin.js: INFO: app db user already exists: ${appDbUserName}`)
 }
 else {

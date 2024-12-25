@@ -17,7 +17,7 @@ try {
   db.adminCommand({ shutdown: 1 })
 }
 catch (ex){
-  if (ex.name==='MongoNetworkError' && /^connection.+closed$/.test(ex.message)){
+  if (ex.name === 'MongoNetworkError' && /^connection.+closed$/.test(ex.message)){
     // It is ok
     // MongoNetworkError: connection 1 to 127.0.0.1:27017 closed
     

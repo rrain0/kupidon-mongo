@@ -8,7 +8,7 @@ const rootUserPwd = process.env.MONGO_ROOT_PASSWORD
 const adminDb = db.getSiblingDB('admin')
 
 const users = adminDb.getUsers()
-if (users.users.find(it=>it.user === rootUserName)){
+if (users.users.find(it => it.user === rootUserName)) {
   console.log(`02-rs-create-admin-user.js: INFO: root user already exists: ${rootUserName}`)
 }
 else {

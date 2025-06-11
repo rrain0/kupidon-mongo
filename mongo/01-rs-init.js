@@ -10,7 +10,7 @@ try {
   rs.status()
   console.log('01-rs-init.js: INFO: replica set was already initialized')
 }
-catch (ex){
+catch (ex) {
   const config = {
     _id: mongoRsName,
     version: 1, // must be >= 1

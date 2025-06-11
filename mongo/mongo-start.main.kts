@@ -35,7 +35,7 @@ runBlocking(Executors.newCachedThreadPool().asCoroutineDispatcher()) {
   shell(mongod)
   
   
-  retry {
+  withRetry {
     println("INFO mongo-start.main.kts: Starting setup replica set...")
     shellWait("$mongosh --file /data/configdb/01-rs-init.js")
   }
@@ -48,13 +48,13 @@ runBlocking(Executors.newCachedThreadPool().asCoroutineDispatcher()) {
   
   launch {
     // retry to wait for port to be free
-    retry {
+    withRetry {
       println("INFO mongo-start.main.kts: Start mongo with replica set with auth enabled...")
       shellWait("$mongod --auth --keyFile /data/configmongo/mongoKeyFile")
     }
   }
   
-  retry {
+  withRetry {
     println("INFO mongo-start.main.kts: Creating app db and app db admin...")
     shellWait("$mongosh --file /data/configdb/04-app-create-db-and-admin.js")
   }
@@ -66,11 +66,11 @@ runBlocking(Executors.newCachedThreadPool().asCoroutineDispatcher()) {
 fun env(name: String): String = System.getenv(name) ?: ""
 
 
-suspend inline fun retry(
+suspend inline fun withRetry(
   delay: Long = 1500,
   interval: Long = 2000,
   retries: Int = 30,
-  block: () -> Unit
+  block: () -> Unit,
 ) {
   delay(delay)
   // from 0 because first attempt is not retry
@@ -80,7 +80,7 @@ suspend inline fun retry(
       block()
       break
     }
-    catch (ex: Exception){
+    catch (ex: Exception) {
       if (i == retries) throw ex
     }
     delay(interval)
@@ -105,7 +105,7 @@ fun shellWait(vararg args: String) = execWait("/bin/bash", "-c", *args)
 
 
 
-fun sleepInfinity() = execWait("/bin/bash", "-c", "sleep infinity")
+fun sleepForever() = execWait("/bin/bash", "-c", "sleep infinity")
 
 
 

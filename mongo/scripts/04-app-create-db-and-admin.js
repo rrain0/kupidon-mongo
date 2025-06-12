@@ -1,5 +1,6 @@
 
 
+console.log('04-app-create-db-and-admin.js --INFO-- Start creating app db and app db admin')
 
 // move to the admin db - always created in Mongo
 db = db.getSiblingDB('admin')
@@ -8,7 +9,7 @@ db = db.getSiblingDB('admin')
 // You need to be logged on your admin base to create new users.
 const rootUserName = process.env.MONGO_ROOT_USERNAME
 const rootUserPwd = process.env.MONGO_ROOT_PASSWORD
-db.auth(rootUserName, rootUserPwd)
+//db.auth(rootUserName, rootUserPwd)
 /*
  admin root user can connect as: {
    user: adminUsername,
@@ -29,7 +30,7 @@ const appDb = db.getSiblingDB(appDbName)
 
 const appDbUsers = appDb.getUsers()
 if (appDbUsers.users.find(it => it.user === appDbUserName)) {
-  console.log(`04-app-create-db-and-admin.js: INFO: app db user already exists: ${appDbUserName}`)
+  console.log(`04-app-create-db-and-admin.js --INFO-- app db user already exists: ${appDbUserName}`)
 }
 else {
   // create app db user
@@ -48,7 +49,7 @@ else {
      db: appDbName,
    }
   */
-  console.log('04-app-create-db-and-admin.js: INFO: app db user was created successfully')
+  console.log('04-app-create-db-and-admin.js --INFO-- app db user was created successfully')
 }
 
 

@@ -2,8 +2,4 @@
 
 ### Private config ###
 mongo.prod.env
-#mongo.local.env
-#mongo.dev.env
-#mongo.template.env
-
-/mongo/mongoKeyFile
+/mongo/certs-prod/

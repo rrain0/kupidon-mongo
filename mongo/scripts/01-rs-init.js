@@ -1,6 +1,6 @@
 
 
-console.log('01-rs-init.js: INFO: start initializing replica set')
+console.log('01-rs-init.js --INFO-- start initializing replica set')
 
 const mongoHostname = process.env.MONGO_HOSTNAME
 const mongoPort = process.env.MONGO_PORT
@@ -8,10 +8,10 @@ const mongoRsName = process.env.MONGO_RS
 
 try {
   rs.status()
-  console.log('01-rs-init.js: INFO: replica set was already initialized')
+  console.log('01-rs-init.js --INFO-- replica set was already initialized')
 }
 catch (ex) {
-  const config = {
+  rs.initiate({
     _id: mongoRsName,
     version: 1, // must be >= 1
     members: [
@@ -23,9 +23,8 @@ catch (ex) {
         priority: 1,
       },
     ]
-  }
-  rs.initiate(config)
-  console.log('01-rs-init.js: INFO: replica set was initialized successfully')
+  })
+  console.log('01-rs-init.js --INFO-- replica set was initialized successfully')
 }
 
 

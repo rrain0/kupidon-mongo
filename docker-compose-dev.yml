@@ -15,11 +15,12 @@ services:
     extra_hosts:
       - '${MONGO_HOSTNAME}:127.0.0.1'
     volumes:
-      - ./mongo/:/data/configdb/:ro
+      - ./mongo/certs-dev:/data/configdb-certs/:ro
+      - ./mongo/scripts:/data/configdb-scripts/:ro
       - ${MONGO_DB_DATA_PATH}/:/data/db/
 #      - ../kupidon-dev-mongo-logs/:/var/log/mongodb/
 #      - ./mongo-init/:/docker-entrypoint-initdb.d/:ro
-    entrypoint: kotlinc -script /data/configdb/mongo-start.main.kts
+    entrypoint: kotlinc -script /data/configdb/scripts/mongo-start.main.kts
     environment:
       - MONGO_HOSTNAME
       - MONGO_PORT
@@ -33,7 +34,7 @@ services:
 
 
 #  mongo-test:
-#    image: mongo:7.0.6-jammy
+#    image: mongo:7.0.21-jammy
 #    entrypoint: sh -c "sleep infinity"
 
 

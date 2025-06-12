@@ -1,5 +1,5 @@
 # based on Ubuntu jammy
-FROM mongo:7.0.6-jammy
+FROM mongo:7.0.21-jammy
 # Switch from `sh -c` to `bash -c` as the shell behind a `RUN` command.
 SHELL ["/bin/bash", "-c"]
 # Usual updates

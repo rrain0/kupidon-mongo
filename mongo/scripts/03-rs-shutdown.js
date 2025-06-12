@@ -1,6 +1,6 @@
 
 
-console.log('03-rs-shutdown.js --INFO-- Starting shutdown')
+log('Starting shutdown')
 
 // move to the admin db - always created in Mongo
 db = db.getSiblingDB('admin')
@@ -25,5 +25,8 @@ catch (ex) {
   else throw ex
 }
 
-console.log('03-rs-shutdown.js --INFO-- Shutdown completed')
+log('Shutdown completed')
 
+
+
+function log(str) { console.log(`INFO>>>> ${str} { file: 03-rs-shutdown.js }`) }

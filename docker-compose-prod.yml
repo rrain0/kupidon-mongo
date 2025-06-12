@@ -6,7 +6,7 @@ name: kupidon-prod-mongo
 services:
 
   mongo:
-    image: rrain0/kupidon-mongo-mongo:1.0.0
+    image: rrain0/kupidon-mongo-mongo:1.0.1
 #    expose:
 #      - 27017
     ports:
@@ -19,7 +19,7 @@ services:
       - ${MONGO_DB_DATA_PATH}/:/data/db/
 #      - ../kupidon-dev-mongo-logs/:/var/log/mongodb/
 #      - ./mongo-init/:/docker-entrypoint-initdb.d/:ro
-    entrypoint: kotlinc -script /data/configdb/mongo-start.main.kts
+    entrypoint: kotlinc -script /data/configdb-scripts/mongo-start.main.kts
     environment:
       - MONGO_HOSTNAME
       - MONGO_PORT

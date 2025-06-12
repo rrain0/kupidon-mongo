@@ -1,10 +1,13 @@
 
 
-console.log('02-rs-create-admin-user.js --INFO-- creating admin user')
 
+log('Creating admin user...')
+
+
+
+/*
 const rootUserName = process.env.MONGO_ROOT_USERNAME
 const rootUserPwd = process.env.MONGO_ROOT_PASSWORD
-/*
 
 {
   const adminDb = db.getSiblingDB('admin')
@@ -22,6 +25,8 @@ const rootUserPwd = process.env.MONGO_ROOT_PASSWORD
   }
 }
 */
+
+
 
 /*
 {
@@ -44,20 +49,22 @@ const rootUserPwd = process.env.MONGO_ROOT_PASSWORD
 
 
 {
-  const mongoAdminClientCertRootUserName = 'CN=mongoAdminClient,OU=MongoDB Server,O=MongoDB'
+  const mongoAdminRootCertClientUserName = process.env.MONGO_ROOT_USERNAME
   
   const externalDb = db.getSiblingDB('$external')
   const users = externalDb.getUsers()
   
-  if (users.users.find(it => it.user === mongoAdminClientCertRootUserName)) {
-    console.log(`02-rs-create-admin-user.js --INFO--mongoAdminClientCertRootUser already exists: ${mongoAdminClientCertRootUserName}`)
+  if (users.users.find(it => it.user === mongoAdminRootCertClientUserName)) {
+    log(`User mongoAdminRootCertClientUserName already exists: ${mongoAdminRootCertClientUserName}`)
   } else {
     externalDb.runCommand({
-      createUser: mongoAdminClientCertRootUserName,
-      roles: [{ role: "userAdminAnyDatabase", db: "admin" }],
+      createUser: mongoAdminRootCertClientUserName,
+      roles: [{ role: 'root', db: 'admin' }],
     })
-    console.log('02-rs-create-admin-user.js --INFO-- mongoAdminClientCertRootUser was created successfully')
+    log(`User mongoAdminRootCertClientUserName was created successfully: ${mongoAdminRootCertClientUserName}`)
   }
 }
 
 
+
+function log(str) { console.log(`INFO>>>> ${str} { file: 02-rs-create-admin-user.js }`) }

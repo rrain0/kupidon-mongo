@@ -34,7 +34,7 @@ runBlocking(Executors.newCachedThreadPool().asCoroutineDispatcher()) {
     
     
     println("mongo-start.main.kts --INFO-- Starting mongod to config it...")
-    shell(mongodForConfig)
+    shellAsync(mongodForConfig)
     
     
     withRetry {
@@ -143,10 +143,10 @@ suspend inline fun withRetry(
 
 
 
-fun exec(vararg args: String) {
+fun execAsync(vararg args: String) {
   ProcessBuilder(args.toList()).inheritIO().start()
 }
-fun shell(vararg args: String) = exec("/bin/bash", "-c", *args)
+fun shellAsync(vararg args: String) = execAsync("/bin/bash", "-c", *args)
 
 
 

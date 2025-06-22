@@ -1,5 +1,4 @@
-# based on Ubuntu jammy
-FROM mongo:7.0.21-jammy
+FROM mongo:8.0.10-noble
 # Switch from `sh -c` to `bash -c` as the shell behind a `RUN` command.
 SHELL ["/bin/bash", "-c"]
 # Usual updates
@@ -7,7 +6,7 @@ RUN apt-get update && apt-get upgrade -y
 # Dependencies for sdkman installation
 RUN apt-get install curl bash unzip zip -y
 # Install jdk
-RUN apt-get install openjdk-17-jdk -y
+RUN apt-get install openjdk-21-jdk -y
 #Install sdkman
 RUN export SDKMAN_DIR="/root/.sdkman" && curl -s "https://get.sdkman.io" | bash
 

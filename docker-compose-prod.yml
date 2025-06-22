@@ -6,7 +6,7 @@ name: kupidon-prod-mongo
 services:
 
   mongo:
-    image: rrain0/kupidon-mongo-mongo:1.0.1
+    image: rrain0/kupidon-mongo-mongo:1.0.2
 #    expose:
 #      - 27017
     ports:

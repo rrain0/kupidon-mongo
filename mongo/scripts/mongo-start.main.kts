@@ -8,7 +8,7 @@ import java.util.concurrent.Executors
 
 
 
-runBlocking(Executors.newCachedThreadPool().asCoroutineDispatcher()) {
+Executors.newCachedThreadPool().use { runBlocking(it.asCoroutineDispatcher()) {
   
   startMongo()
   
@@ -21,7 +21,7 @@ runBlocking(Executors.newCachedThreadPool().asCoroutineDispatcher()) {
     waitForever()
   }
   */
-}
+} }
 
 
 
